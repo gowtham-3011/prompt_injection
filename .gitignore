@@ -1,0 +1,17 @@
+# Secrets: API keys live only in the environment or a local .env
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# Large artifacts (model checkpoints are reproducible from configs + seeds)
+checkpoints/
+*.pt
+*.safetensors
+hf_cache/
+
+# Scratch traces; curated results (CSV/JSON/plots) ARE committed
+results/**/scratch/

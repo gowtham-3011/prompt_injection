@@ -1,0 +1,82 @@
+{
+  "kind": "transformer",
+  "base_model": "distilbert-base-uncased",
+  "threshold": 0.9715793142781982,
+  "target_fpr": 0.01,
+  "seed": 1234,
+  "data_counts": {
+    "train": {
+      "pos": 167,
+      "neg": 253,
+      "total": 420
+    },
+    "val": {
+      "pos": 55,
+      "neg": 84,
+      "total": 139
+    },
+    "test": {
+      "pos": 57,
+      "neg": 86,
+      "total": 143
+    },
+    "heldout": {
+      "pos": 2,
+      "neg": 0,
+      "total": 2
+    }
+  },
+  "results": [
+    {
+      "split": "validation",
+      "precision": 1.0,
+      "recall": 0.5454545454545454,
+      "f1": 0.7058823529411764,
+      "auc": 0.9902597402597403,
+      "tpr_at_fpr": {
+        "0.01": 0.5454545454545454,
+        "0.001": 0.5454545454545454
+      },
+      "threshold": 0.9715793142781982,
+      "n_pos": 55,
+      "n_neg": 84
+    },
+    {
+      "split": "test (in-distribution)",
+      "precision": 1.0,
+      "recall": 0.47368421052631576,
+      "f1": 0.6428571428571429,
+      "auc": 0.9879640962872297,
+      "tpr_at_fpr": {
+        "0.01": 0.7543859649122807,
+        "0.001": 0.7543859649122807
+      },
+      "threshold": 0.9715793142781982,
+      "n_pos": 57,
+      "n_neg": 86
+    },
+    {
+      "split": "held-out families (unseen)",
+      "recall": 0.0,
+      "ci": [
+        0.0,
+        0.6576280471103807
+      ],
+      "n": 2
+    },
+    {
+      "split": "hard_negatives_test",
+      "fpr": 0.0,
+      "ci": [
+        0.0,
+        0.48990002040399916
+      ],
+      "n": 4
+    }
+  ],
+  "latency_ms": {
+    "p50": 62.30535003123805,
+    "p95": 119.27569995168597,
+    "device": "cpu"
+  }
+}

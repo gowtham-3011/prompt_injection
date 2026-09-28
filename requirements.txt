@@ -1,0 +1,27 @@
+# Core
+PyYAML>=6.0
+numpy>=1.26
+pandas>=2.0
+tqdm>=4.66
+python-dotenv>=1.0
+httpx>=0.27            # Ollama backend (already a dependency of the anthropic SDK)
+
+# LLM backends
+anthropic>=0.116
+
+# ML (Phase 4)
+torch>=2.2
+transformers>=4.44
+datasets>=2.20
+scikit-learn>=1.4
+
+# Serving + UI (Phases 6 and 8)
+fastapi>=0.110
+uvicorn>=0.29
+streamlit>=1.35
+
+# Evaluation + plots
+matplotlib>=3.8
+
+# Tests
+pytest>=8.0

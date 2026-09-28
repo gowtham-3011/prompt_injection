@@ -1,0 +1,10 @@
+[project]
+name = "prompt-injection-firewall"
+version = "0.1.0"
+description = "Layered defenses and an honest evaluation lab for prompt injection against tool-using LLM agents."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+# Lets tests import `src.*` without installing the package.
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -1,0 +1,58 @@
+# Tool-call policy. Rules live here, not in code, so a security reviewer can read and
+# change them without touching Python.
+
+taint:
+  # Reading any of these marks the session TAINTED: attacker-controlled text is now in
+  # the model's context and everything the model says afterwards is suspect.
+  sources: [read_inbox, browse_url, search_docs]
+  # Once tainted, a session never becomes clean again. There is no reliable way to
+  # "unread" text from a model's context.
+  sticky: true
+
+tools:
+  send_email:
+    # Side-effecting tool: this is where data can leave the system.
+    when_tainted: confirm          # allow | confirm | block
+    when_clean: allow
+    recipient_allowlist:
+      # Only these domains/addresses can receive mail without explicit confirmation.
+      - "acme-corp.example"
+      - "calendar.example"
+      - "devweekly.example"
+    # Arguments are checked for secrets regardless of taint: a clean session should not
+    # be able to mail out credentials either.
+    forbid_secrets_in_args: true
+    max_body_chars: 5000
+
+  browse_url:
+    when_tainted: allow
+    when_clean: allow
+    # A tainted session fetching a brand-new URL is a plausible exfil channel
+    # (data encoded in the path/query), so restrict which hosts can be fetched.
+    url_allowlist_when_tainted:
+      - "news.example"
+      - "acme-corp.example"
+
+  read_inbox:
+    when_tainted: allow
+    when_clean: allow
+
+  search_docs:
+    when_tainted: allow
+    when_clean: allow
+
+output_filter:
+  # Strip markdown images/links pointing outside these domains: a URL is an outbound
+  # channel, and the user's client fetches images automatically.
+  allowed_link_domains:
+    - "acme-corp.example"
+    - "news.example"
+  strip_markdown_images: true
+  neutralize_external_links: true   # render as plain text instead of a clickable/auto-loaded URL
+  redact_secrets: true
+  redact_canary: true
+  flag_html: true
+
+modes:
+  # How the pipeline acts on a detection. Used for ablations in Phase 7.
+  default: sanitize                 # block | flag | sanitize
